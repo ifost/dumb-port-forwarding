@@ -1,0 +1,19 @@
+#!/bin/sh
+
+case $1 in
+  start)
+    echo "Starting dumb port forwarder"
+    tclsh /usr/local/bin/dumbPortfw.tcl &
+    echo $! > /var/run/portfw.pid
+    ;;
+  stop)
+    kill $(cat /var/run/portfw.pid) > /dev/null
+    rm -f /var/run/portfw.pid
+    echo "Killed dumb port forwarder"
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+esac
+
